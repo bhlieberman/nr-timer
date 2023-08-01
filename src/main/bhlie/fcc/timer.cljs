@@ -84,14 +84,11 @@
   (js/console.log "starting timer"))
 
 (defn ^:export play []
-  (let [buttons (into [] cat [break-buttons session-buttons
-                              [(gdom/getElement "start_stop") (gdom/getElement "reset")]])]
-    (doseq [button buttons]
-      (condp = (.-innerText button)
-        "Dec" (shorten button)
-        "Inc" (lengthen button)
-        "Start/Stop" (do-listen-start)
-        "Reset" (reset-timer)))))
+  (doseq [button (gdom/getElementsByTagName "button")]
+    (condp = (.-innerText button)
+      "Dec" (shorten button)
+      "Inc" (lengthen button)
+      "Start/Stop" (do-listen-start)
+      "Reset" (reset-timer))))
 
-(comment
-  (gdom/getElementsByClassName "button"))
+(comment)
