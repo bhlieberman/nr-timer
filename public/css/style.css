@@ -1,0 +1,29 @@
+html {
+    background-color: mediumaquamarine;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#app {
+    display: flex;
+    width: 500px;
+    height: 500px;
+    flex-direction: column;
+    align-items: center;
+    border: 2px solid salmon;
+}
+
+#break-label, #session-label {
+    display: flex;
+    justify-content: space-around;
+    color: blue;
+    margin: 50px;
+}
+
+#break-label *, #session-label * {
+    margin: 10px;
+}
