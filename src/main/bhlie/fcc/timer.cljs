@@ -11,16 +11,6 @@
 (def minutes-timer (Timer. 60000))
 (def seconds-timer (Timer. 1000))
 
-;; break buttons
-(def break-buttons
-  (let [children (gdom/getChildren (gdom/getElement "break-label"))]
-    [(.namedItem children "break-decrement") (.namedItem children "break-increment")]))
-
-;; session buttons 
-(def session-buttons
-  (let [children (gdom/getChildren (gdom/getElement "session-label"))]
-    [(.namedItem children "session-decrement") (.namedItem children "session-increment")]))
-
 (defn shorten [el]
   (listen el EventType.CLICK
           (fn [e] (let [el (.-target e)
@@ -41,7 +31,7 @@
 
 (defn start-timer []
   (let [time (js/parseInt (.-innerText session-length))
-        minutes (atom time :validator pos-int?)
+        minutes (atom time)
         seconds (atom 60)]
     (.listen minutes-timer Timer.TICK
              (fn [_] (swap! minutes dec)
@@ -53,10 +43,10 @@
                (cond
                  (= @minutes time) (swap! minutes dec)
                  (zero? @seconds) (do (reset! seconds 60) (gdom/setTextContent session (str @minutes ":00")))
-                 :else (gdom/setTextContent session (str @minutes ":" (if (< @seconds 10)
-                                                                        (str "0" @seconds)
-                                                                        @seconds))))
-               (swap! seconds dec)))
+                 :else (do (gdom/setTextContent session (str @minutes ":" (if (< @seconds 10)
+                                                                            (str "0" @seconds)
+                                                                            @seconds)))
+                           (swap! seconds dec)))))
     (.start minutes-timer)
     (.start seconds-timer)))
 
